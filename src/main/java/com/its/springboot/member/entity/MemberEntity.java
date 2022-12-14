@@ -47,6 +47,7 @@ public class MemberEntity extends BaseEntity {
         dto.setProfileAttached(entity.getProfileAttached());
         dto.setOriginalProfileName(entity.getOriginalProfileName());
         dto.setStoredProfileName(entity.getStoredProfileName());
+        dto.setMemberCreatedDate(entity.getCreatedDate());
         return dto;
     }
 }

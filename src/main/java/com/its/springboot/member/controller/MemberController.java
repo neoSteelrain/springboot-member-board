@@ -1,5 +1,6 @@
 package com.its.springboot.member.controller;
 
+import com.its.springboot.member.config.SESSION_KEYS;
 import com.its.springboot.member.dto.MemberDTO;
 import com.its.springboot.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,10 @@ public class MemberController {
         return "member/login";
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String logout(HttpSession session){
         session.invalidate();
-        return "redirect:/board/";
+        return "redirect:/";
     }
 
     @PostMapping("/login")
@@ -40,7 +41,9 @@ public class MemberController {
         if(dto == null){
             return "redirect:/member/login";
         }
-        session.setAttribute("member", dto);
+        session.setAttribute(SESSION_KEYS.MEMBER_ID, dto.getId());
+        session.setAttribute(SESSION_KEYS.MEMBER_NAME, dto.getMemberName());
+        session.setAttribute(SESSION_KEYS.MEMBER_EMAIL, dto.getMemberEmail());
         return "redirect:/board/";
     }
 

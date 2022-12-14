@@ -28,7 +28,7 @@
                                                                                      style="font-size: small"
                                                                                      id="pwNotice"></span></label>
                         <input required name="memberPassword" id="ipt-pw" type="password" class="form-control inputpass"
-                               onblur="checkPassword(this.value)" minlength="6" maxlength="20"
+                               minlength="6" maxlength="20"
                                placeholder="영문대소문자,특수기호 포함 6-20자"/>
                     </div>
 
@@ -59,20 +59,9 @@
             $('#ipt-email').focus();
             return;
         }
-        // /check-duplicatedemail/{email}
-        axios({
-            method: "get",
-            url: "/member/check-duplicatedemail/" + email,
-        }).then(res => {
-            emailNotice.css('color', 'green');
-            emailNotice.html('사용가능한 이메일입니다.')
-        }).catch(err => {
-            emailNotice.css('color', 'red');
-            emailNotice.html('중복된 이메일입니다.')
-        })
     }
 
-    const checkPassword = (pw) => {
+    /*const checkPassword = (pw) => {
         const pwTag = $('#ipt-pw');
         const pwNotice = $('#pwNotice');
 
@@ -91,6 +80,6 @@
             pwNotice.css('color', 'white');
             pwNotice.html('');
         }
-    }
+    }*/
 </script>
 </html>
