@@ -31,7 +31,7 @@ public class MemberService implements ApplicationEventPublisherAware {
 
     // 이메일, 비밀번호, 이름, 전화번호, 프로필사진
     public MemberDTO login(MemberDTO memberDTO){
-        Optional<MemberEntity> entity = memberRepository.findById(memberDTO.getId());
+        Optional<MemberEntity> entity = memberRepository.findByMemberEmail(memberDTO.getMemberEmail());
         if(entity.isPresent()){
             return MemberEntity.toMemberDTO(entity.get());
         }

@@ -27,11 +27,20 @@ public class MemberController {
         return "member/login";
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/board/";
+    }
+
     @PostMapping("/login")
     public String login(@ModelAttribute MemberDTO memberDTO, HttpSession session){
         System.out.println("memberDTO = " + memberDTO);
         MemberDTO dto = memberService.login(memberDTO);
-        session.setAttribute("member", memberDTO);
+        if(dto == null){
+            return "redirect:/member/login";
+        }
+        session.setAttribute("member", dto);
         return "redirect:/board/";
     }
 

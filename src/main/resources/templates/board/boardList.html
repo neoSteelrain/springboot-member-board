@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <title>게시판</title>
 </head>
 <body>
-게시판 화면
+<th:block th:replace="common/header :: header"></th:block>
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <td>글번호</td>
+            <td>작성자</td>
+            <td>제목</td>
+            <td>작성일</td>
+            <td>조회수</td>
+        </tr>
+        </thead>
+    </table>
+</div>
 </body>
 </html>
