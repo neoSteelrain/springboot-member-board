@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService implements ApplicationEventPublisherAware {
@@ -29,19 +31,31 @@ public class MemberService implements ApplicationEventPublisherAware {
 
     // 이메일, 비밀번호, 이름, 전화번호, 프로필사진
     public MemberDTO login(MemberDTO memberDTO){
+        Optional<MemberEntity> entity = memberRepository.findById(memberDTO.getId());
+        if(entity.isPresent()){
+            return MemberEntity.toMemberDTO(entity.get());
+        }
         return null;
     }
 
     public Long registerMember(MemberDTO memberDTO){
-        if(memberDTO.getMemberProfile() != null){
+        MemberEntity entity = memberRepository.save(MemberDTO.toMemberEntity(memberDTO));
+        if(!memberDTO.getMemberProfile().isEmpty()){
+            memberDTO.setId(entity.getId());
+            memberDTO.setProfileAttached(1);
             applicationEventPublisher.publishEvent(new MemberRegistrationEvent(memberDTO));
         }
-        MemberEntity entity = memberRepository.save(MemberDTO.toMemberEntity(memberDTO));
+
         return entity.getId();
     }
 
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
+    }
+
+    public boolean checkDuplicatedEmail(String email) {
+        Optional<MemberEntity> entity = memberRepository.findByMemberEmail(email);
+        return entity.isPresent();
     }
 }

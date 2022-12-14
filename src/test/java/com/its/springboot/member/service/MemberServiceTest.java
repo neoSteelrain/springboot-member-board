@@ -31,4 +31,24 @@ public class MemberServiceTest {
 
         assertThat(id != null && id.longValue() > 0);
     }
+
+    private MemberDTO createMemberDTO(String email, String pw, String name, String phone){
+        MemberDTO dto = new MemberDTO();
+        dto.setMemberEmail(email);
+        dto.setMemberPassword(pw);
+        dto.setMemberName(name);
+        dto.setMemberMobile(phone);
+        return dto;
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    @DisplayName("이메일 중복검사 테스트")
+    public void duplicatedEmailTest(){
+        MemberDTO dto = createMemberDTO("test@test.com", "123456", "테스트이름", "010-1111-2222");
+        memberService.registerMember(dto);
+        boolean res = memberService.checkDuplicatedEmail("test@test.com");
+        assertThat(res);
+    }
 }
